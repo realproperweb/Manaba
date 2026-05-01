@@ -1,77 +1,1228 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KZN Coastal Fun Run</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KZN Coastal Fun Run & Relay | Manaba · Uvongo · Lucien Beach</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --ocean-deep: #0a2342;
+      --ocean-mid: #1565c0;
+      --ocean-bright: #29b6f6;
+      --ocean-light: #b3e5fc;
+      --sunset-orange: #ff6f00;
+      --sunset-red: #e53935;
+      --sunset-yellow: #ffd600;
+      --sand: #fff8e1;
+      --wa-green: #25D366;
+      --wa-dark: #128C7E;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--ocean-deep);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .display {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.04em;
+    }
+
+    .condensed { font-family: 'Barlow Condensed', sans-serif; }
+
+    /* ===== WAVE ANIMATIONS ===== */
+    .wave-container {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 80px;
+      overflow: hidden;
+    }
+
+    .wave {
+      position: absolute;
+      bottom: 0;
+      width: 200%;
+      height: 100%;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120'%3E%3Cpath d='M0,60 C150,100 350,0 600,60 C850,120 1050,20 1200,60 L1200,120 L0,120 Z' fill='%230a2342'/%3E%3C/svg%3E") repeat-x;
+      background-size: 50% 100%;
+      animation: wave-move 6s linear infinite;
+    }
+
+    .wave2 {
+      animation-duration: 9s;
+      animation-direction: reverse;
+      opacity: 0.5;
+    }
+
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      background: linear-gradient(160deg,
+        #001d3d 0%,
+        #023e8a 30%,
+        #0077b6 55%,
+        #ff6f00 85%,
+        #ffd600 100%
+      );
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 80% 20%, rgba(255,111,0,0.25) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 80%, rgba(41,182,246,0.3) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* animated sun */
+    .hero-sun {
+      position: absolute;
+      bottom: 18%;
+      right: 8%;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffd600 30%, #ff6f00 100%);
+      box-shadow: 0 0 60px 20px rgba(255,214,0,0.5), 0 0 120px 40px rgba(255,111,0,0.3);
+      animation: sun-pulse 4s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    @keyframes sun-pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 60px 20px rgba(255,214,0,0.5); }
+      50% { transform: scale(1.06); box-shadow: 0 0 80px 30px rgba(255,214,0,0.7); }
+    }
+
+    /* ocean layer at hero bottom */
+    .hero-ocean {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 35%;
+      background: linear-gradient(to top, #001d3d 0%, rgba(0,29,61,0.6) 80%, transparent 100%);
+      z-index: 1;
+    }
+
+    .hero-content { position: relative; z-index: 2; text-align: center; padding: 1rem 1.5rem; }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,214,0,0.15);
+      border: 1.5px solid var(--sunset-yellow);
+      color: var(--sunset-yellow);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.35rem 1.2rem;
+      border-radius: 999px;
+      margin-bottom: 1.2rem;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 14vw, 9rem);
+      line-height: 0.9;
+      color: #fff;
+      text-shadow: 0 4px 30px rgba(0,0,0,0.4);
+      animation: fadeDown 0.9s 0.1s ease both;
+    }
+
+    .hero-title span {
+      background: linear-gradient(90deg, #ffd600, #ff6f00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(1rem, 3.5vw, 1.5rem);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.85);
+      margin-top: 0.8rem;
+      animation: fadeDown 1s 0.2s ease both;
+    }
+
+    .hero-route {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-top: 0.6rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+      color: var(--ocean-bright);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      animation: fadeDown 1s 0.3s ease both;
+    }
+
+    .hero-route .dot { color: var(--sunset-yellow); font-size: 0.6em; }
+
+    .hero-cta { margin-top: 2rem; animation: fadeDown 1s 0.4s ease both; }
+
+    /* ===== BUTTONS ===== */
+    .btn-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: #fff;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.9rem 2rem;
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 6px 30px rgba(37,211,102,0.4);
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-wa::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.1);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    .btn-wa:hover::after { transform: translateX(0); }
+    .btn-wa:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(37,211,102,0.55); }
+    .btn-wa:active { transform: translateY(0); }
+
+    .btn-wa-xl {
+      font-size: 1.25rem;
+      padding: 1.1rem 2.6rem;
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 2px solid rgba(255,255,255,0.6);
+      color: #fff;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.75rem 1.8rem;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: #fff;
+    }
+
+    /* ===== SECTIONS ===== */
+    .section { padding: 5rem 1.5rem; position: relative; }
+
+    .section-dark { background: var(--ocean-deep); }
+    .section-mid {
+      background: linear-gradient(180deg, #011f45 0%, #01337d 100%);
+    }
+    .section-sunset {
+      background: linear-gradient(135deg, #0a2342 0%, #1a3a6e 40%, #7b2d00 100%);
+    }
+    .section-sand {
+      background: linear-gradient(180deg, #fffde7 0%, #fff8e1 100%);
+      color: #1a1a2e;
+    }
+
+    .section-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sunset-yellow);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.8rem, 8vw, 5.5rem);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    /* ===== CARDS ===== */
+    .card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 1.25rem;
+      padding: 1.75rem;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-4px);
+      border-color: rgba(41,182,246,0.4);
+    }
+
+    /* ===== COUNTDOWN ===== */
+    .countdown-box {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .countdown-unit {
+      background: rgba(255,255,255,0.08);
+      border: 1.5px solid rgba(255,214,0,0.3);
+      border-radius: 1rem;
+      padding: 1rem 1.25rem;
+      min-width: 80px;
+      text-align: center;
+    }
+
+    .countdown-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      line-height: 1;
+      color: var(--sunset-yellow);
+    }
+
+    .countdown-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-top: 0.2rem;
+    }
+
+    /* ===== FLOATING WHATSAPP ===== */
+    .floating-wa {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 9999;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: #fff;
+      box-shadow: 0 6px 30px rgba(37,211,102,0.5);
+      text-decoration: none;
+      animation: float-bounce 2.5s ease-in-out infinite;
+      transition: transform 0.2s ease;
+    }
+
+    .floating-wa:hover { transform: scale(1.12); }
+
+    .floating-wa .ping {
+      position: absolute;
+      top: -4px; right: -4px;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--sunset-orange);
+      animation: ping 1.5s ease-in-out infinite;
+    }
+
+    @keyframes float-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes ping {
+      0% { transform: scale(1); opacity: 1; }
+      70%, 100% { transform: scale(2.2); opacity: 0; }
+    }
+
+    /* ===== STICKY NAV ===== */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 0.9rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.3s ease;
+    }
+
+    .nav.scrolled {
+      background: rgba(10, 35, 66, 0.95);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 2px 30px rgba(0,0,0,0.3);
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+
+    .nav-logo span { color: var(--sunset-yellow); }
+
+    /* ===== ROUTE MAP ===== */
+    .route-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding: 0.5rem 0;
+    }
+
+    .route-stop {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      min-width: 100px;
+    }
+
+    .route-dot {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--sunset-yellow);
+      border: 3px solid #fff;
+      box-shadow: 0 0 12px rgba(255,214,0,0.6);
+      margin-bottom: 0.4rem;
+    }
+
+    .route-connector {
+      flex: 1;
+      height: 3px;
+      background: linear-gradient(90deg, var(--sunset-yellow), var(--ocean-bright));
+      min-width: 40px;
+      max-width: 80px;
+      margin-bottom: 1.2rem;
+      position: relative;
+    }
+
+    .route-connector::after {
+      content: '▶';
+      position: absolute;
+      right: -6px;
+      top: -8px;
+      font-size: 10px;
+      color: var(--ocean-bright);
+    }
+
+    /* ===== HIGHLIGHT BAR ===== */
+    .highlight-bar {
+      background: linear-gradient(90deg, var(--sunset-orange), var(--sunset-red));
+      padding: 0.75rem 1.5rem;
+      text-align: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      overflow: hidden;
+    }
+
+    .ticker {
+      display: inline-flex;
+      gap: 3rem;
+      animation: ticker 20s linear infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fadeup {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .animate-fadeup.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== PRIZE CARD ===== */
+    .prize-card {
+      background: linear-gradient(135deg, rgba(255,214,0,0.12), rgba(255,111,0,0.08));
+      border: 2px solid rgba(255,214,0,0.3);
+      border-radius: 1.25rem;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .prize-card:hover {
+      border-color: var(--sunset-yellow);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(255,214,0,0.2);
+    }
+
+    /* ===== GALLERY ===== */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    @media (min-width: 640px) {
+      .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .gallery-item {
+      border-radius: 1rem;
+      overflow: hidden;
+      aspect-ratio: 1;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .gallery-item:hover img { transform: scale(1.08); }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,35,66,0.7), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+    /* ===== FAQ ===== */
+    .faq-item {
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 1.2rem 0;
+    }
+
+    .faq-question {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+
+    .faq-answer {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.6;
+    }
+
+    .faq-answer.open {
+      max-height: 200px;
+      padding-top: 0.75rem;
+    }
+
+    .faq-icon {
+      font-size: 1.2rem;
+      color: var(--sunset-yellow);
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .faq-icon.open { transform: rotate(45deg); }
+
+    /* ===== URGENCY BANNER ===== */
+    .urgency {
+      background: linear-gradient(135deg, #e53935, #b71c1c);
+      border-radius: 1rem;
+      padding: 1.2rem 1.5rem;
+      text-align: center;
+      animation: urgency-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes urgency-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(229,57,53,0.4); }
+      50% { box-shadow: 0 0 0 12px rgba(229,57,53,0); }
+    }
+
+    /* ===== PHOTO CARDS (Unsplash) ===== */
+    .photo-hero {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .photo-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.18;
+    }
+
+    /* mobile menu */
+    .menu-links {
+      display: none;
+    }
+    @media(min-width: 640px) {
+      .menu-links { display: flex; align-items: center; gap: 1.5rem; }
+    }
+  </style>
 </head>
-<body class="bg-blue-50 text-gray-800">
+<body>
 
-<!-- WhatsApp Link -->
-<script>
-  const whatsappLink = "https://wa.me/27689124033?text=Please%20register%20us%20now%20for%20the%20Manaba%20Fun%20Run";
-</script>
+<!-- ===== STICKY NAV ===== -->
+<nav class="nav" id="nav">
+  <a href="#hero" class="nav-logo">KZN<span>RUN</span></a>
+  <div class="menu-links">
+    <a href="#details" class="text-white/70 hover:text-white text-sm font-semibold condensed tracking-wider uppercase transition">Details</a>
+    <a href="#highlights" class="text-white/70 hover:text-white text-sm font-semibold condensed tracking-wider uppercase transition">Highlights</a>
+    <a href="#prizes" class="text-white/70 hover:text-white text-sm font-semibold condensed tracking-wider uppercase transition">Prizes</a>
+    <a href="#register" class="text-white/70 hover:text-white text-sm font-semibold condensed tracking-wider uppercase transition">Register</a>
+    <a href="https://wa.me/27689124033?text=Please%20register%20us%20now%20for%20the%20Manaba%20Fun%20Run"
+       target="_blank" class="btn-wa" style="padding:0.55rem 1.2rem; font-size:0.82rem;">
+      <i class="fab fa-whatsapp"></i> Register
+    </a>
+  </div>
+</nav>
 
-<!-- Floating Button -->
-<a href="#" onclick="window.open(whatsappLink, '_blank')" class="fixed bottom-5 right-5 bg-green-500 text-white p-4 rounded-full shadow-lg text-xl">💬</a>
+<!-- ===== TICKER ===== -->
+<div class="highlight-bar" style="padding-top:0.6rem;padding-bottom:0.6rem;">
+  <div class="ticker">
+    <span>🏃 LIMITED SPOTS AVAILABLE — REGISTER NOW ON WHATSAPP</span>
+    <span>🌊 MANABA · UVONGO · LUCIEN BEACH</span>
+    <span>🏆 WIN GREAT PRIZES JUST FOR PARTICIPATING!</span>
+    <span>👩‍👧 MOTHER & DAUGHTER RELAY COMPETITION</span>
+    <span>🏃 LIMITED SPOTS AVAILABLE — REGISTER NOW ON WHATSAPP</span>
+    <span>🌊 MANABA · UVONGO · LUCIEN BEACH</span>
+    <span>🏆 WIN GREAT PRIZES JUST FOR PARTICIPATING!</span>
+    <span>👩‍👧 MOTHER & DAUGHTER RELAY COMPETITION</span>
+  </div>
+</div>
 
-<!-- Hero Section -->
-<section class="bg-gradient-to-r from-blue-500 to-blue-700 text-white text-center py-20 px-4">
-  <h1 class="text-4xl md:text-6xl font-bold mb-4">Run the Coastline. Feel the Energy.</h1>
-  <p class="text-lg mb-6">KZN Coastal Fun Run & Relay – Manaba to Uvongo & Lucien Beach</p>
-  <button onclick="window.open(whatsappLink, '_blank')" class="bg-green-500 hover:bg-green-600 px-6 py-3 rounded-xl font-semibold">REGISTER NOW ON WHATSAPP</button>
-</section>
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
+  <div class="hero-sun"></div>
 
-<!-- Event Details -->
-<section class="py-16 px-6 text-center">
-  <h2 class="text-3xl font-bold mb-6">Event Details</h2>
-  <p>📍 Manaba → Uvongo → Lucien Beach</p>
-  <p>📅 [Insert Date]</p>
-  <p>⏰ [Insert Time]</p>
-</section>
+  <!-- Animated wave runners silhouette -->
+  <div style="position:absolute;bottom:0;left:0;right:0;z-index:1;">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style="display:block;width:100%;height:80px;">
+      <path d="M0,40 C200,80 400,0 600,50 C800,100 1000,10 1200,50 C1300,70 1380,40 1440,30 L1440,120 L0,120 Z" fill="#0a2342"/>
+    </svg>
+  </div>
 
-<!-- Highlights -->
-<section class="bg-white py-16 px-6">
-  <h2 class="text-3xl font-bold text-center mb-10">Why Join?</h2>
-  <div class="grid md:grid-cols-4 gap-6 text-center">
-    <div>🌊 Scenic Ocean Route</div>
-    <div>🎉 Fun Atmosphere</div>
-    <div>💪 All Fitness Levels</div>
-    <div>✅ Safe & Organized</div>
+  <div class="hero-content" style="padding-top:6rem;padding-bottom:5rem;">
+    <div class="hero-badge">🏁 KwaZulu-Natal · South Africa · 2025</div>
+
+    <div class="hero-title">
+      Run the<br/><span>Coastline.</span><br/>Feel the Energy.
+    </div>
+
+    <div class="hero-sub">KZN Coastal Fun Run & Relay</div>
+
+    <div class="hero-route">
+      <span>🌊 Manaba Beach</span>
+      <span class="dot">●</span>
+      <span>Uvongo Beach</span>
+      <span class="dot">●</span>
+      <span>Lucien Beach 🌊</span>
+    </div>
+
+    <!-- Countdown -->
+    <div style="margin-top:1.8rem;" class="animate-fadeup visible">
+      <p class="text-white/60 condensed text-sm tracking-widest uppercase mb-3">Race Day Countdown</p>
+      <div class="countdown-box" id="countdown">
+        <div class="countdown-unit"><div class="countdown-num" id="cd-days">--</div><div class="countdown-label">Days</div></div>
+        <div class="countdown-unit"><div class="countdown-num" id="cd-hours">--</div><div class="countdown-label">Hours</div></div>
+        <div class="countdown-unit"><div class="countdown-num" id="cd-mins">--</div><div class="countdown-label">Mins</div></div>
+        <div class="countdown-unit"><div class="countdown-num" id="cd-secs">--</div><div class="countdown-label">Secs</div></div>
+      </div>
+    </div>
+
+    <div class="hero-cta flex flex-col sm:flex-row gap-4 justify-center mt-8">
+      <a href="https://wa.me/27689124033?text=Please%20register%20us%20now%20for%20the%20Manaba%20Fun%20Run"
+         target="_blank" class="btn-wa btn-wa-xl">
+        <i class="fab fa-whatsapp text-xl"></i>
+        REGISTER NOW ON WHATSAPP
+      </a>
+      <a href="#details" class="btn-outline">
+        <i class="fas fa-chevron-down"></i> Event Details
+      </a>
+    </div>
+
+    <p class="text-white/50 text-xs mt-4 condensed tracking-wide">⚡ No forms. No email. Just WhatsApp. Fast & easy.</p>
   </div>
 </section>
 
-<!-- Relay Section -->
-<section class="py-16 px-6 text-center bg-pink-100">
-  <h2 class="text-3xl font-bold mb-4">👩‍👧 Mother & Daughter Relay</h2>
-  <p>Team up and compete for amazing prizes!</p>
+<!-- ===== EVENT DETAILS ===== -->
+<section class="section section-dark" id="details">
+  <div style="max-width:900px;margin:0 auto;">
+    <div class="text-center animate-fadeup">
+      <div class="section-label">📍 Event Details</div>
+      <h2 class="section-title">WHERE, WHEN<br/><span style="color:var(--ocean-bright)">& WHO</span></h2>
+    </div>
+
+    <!-- Route visual -->
+    <div class="animate-fadeup mt-10 card" style="padding:2rem 1rem;">
+      <p class="condensed font-bold text-xs tracking-widest uppercase text-center mb-6" style="color:var(--ocean-bright);">The Route</p>
+      <div class="route-line">
+        <div class="route-stop">
+          <div class="route-dot"></div>
+          <div class="condensed font-bold text-sm">MANABA BEACH</div>
+          <div class="text-white/50 text-xs mt-1">Start 🏁</div>
+        </div>
+        <div class="route-connector"></div>
+        <div class="route-stop">
+          <div class="route-dot" style="background:var(--ocean-bright);"></div>
+          <div class="condensed font-bold text-sm">UVONGO BEACH</div>
+          <div class="text-white/50 text-xs mt-1">Checkpoint 🌊</div>
+        </div>
+        <div class="route-connector"></div>
+        <div class="route-stop">
+          <div class="route-dot" style="background:var(--sunset-orange);"></div>
+          <div class="condensed font-bold text-sm">LUCIEN BEACH</div>
+          <div class="text-white/50 text-xs mt-1">Finish 🏆</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 animate-fadeup">
+      <div class="card text-center">
+        <div style="font-size:2.5rem;margin-bottom:0.5rem;">📅</div>
+        <div class="section-label" style="margin-bottom:0.2rem;">Date</div>
+        <div class="condensed font-bold text-xl">TBC 2025</div>
+        <div class="text-white/50 text-sm mt-1">Morning start<br/>Registration from 6:00 AM</div>
+      </div>
+      <div class="card text-center">
+        <div style="font-size:2.5rem;margin-bottom:0.5rem;">📍</div>
+        <div class="section-label" style="margin-bottom:0.2rem;">Location</div>
+        <div class="condensed font-bold text-xl">KZN Coastline</div>
+        <div class="text-white/50 text-sm mt-1">KwaZulu-Natal<br/>South Africa 🇿🇦</div>
+      </div>
+      <div class="card text-center">
+        <div style="font-size:2.5rem;margin-bottom:0.5rem;">🏃‍♀️</div>
+        <div class="section-label" style="margin-bottom:0.2rem;">Who Can Join</div>
+        <div class="condensed font-bold text-xl">Everyone!</div>
+        <div class="text-white/50 text-sm mt-1">All fitness levels<br/>Beginners welcome</div>
+      </div>
+    </div>
+
+    <div class="text-center mt-10 animate-fadeup">
+      <a href="https://wa.me/27689124033?text=Please%20register%20us%20now%20for%20the%20Manaba%20Fun%20Run"
+         target="_blank" class="btn-wa btn-wa-xl">
+        <i class="fab fa-whatsapp text-xl"></i> SECURE YOUR SPOT
+      </a>
+    </div>
+  </div>
 </section>
 
-<!-- Prizes -->
-<section class="py-16 px-6 text-center">
-  <h2 class="text-3xl font-bold mb-4">🎁 Win Great Prizes</h2>
-  <p>You can win just for participating!</p>
+<!-- ===== RACE HIGHLIGHTS ===== -->
+<section class="section section-mid" id="highlights">
+  <div style="max-width:900px;margin:0 auto;">
+    <div class="text-center animate-fadeup">
+      <div class="section-label">🏃 Race Highlights</div>
+      <h2 class="section-title">WHY YOU'LL<br/><span style="color:var(--sunset-yellow)">LOVE IT</span></h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-10">
+      <div class="card animate-fadeup" style="border-color:rgba(41,182,246,0.3);">
+        <div style="font-size:2.5rem;margin-bottom:0.8rem;">🌊</div>
+        <h3 class="condensed font-bold text-xl mb-2">Scenic Ocean Route</h3>
+        <p class="text-white/70 text-sm leading-relaxed">Run along some of KwaZulu-Natal's most breathtaking beaches — feel the ocean breeze and soak in the stunning Indian Ocean views every step of the way.</p>
+      </div>
+
+      <div class="card animate-fadeup" style="border-color:rgba(255,214,0,0.3);">
+        <div style="font-size:2.5rem;margin-bottom:0.8rem;">🎉</div>
+        <h3 class="condensed font-bold text-xl mb-2">Fun & Competitive</h3>
+        <p class="text-white/70 text-sm leading-relaxed">Whether you're chasing a podium finish or just want to enjoy the experience, there's a spot for you. Race your best or pace yourself — it's all welcome here.</p>
+      </div>
+
+      <div class="card animate-fadeup" style="border-color:rgba(255,111,0,0.3);">
+        <div style="font-size:2.5rem;margin-bottom:0.8rem;">🤝</div>
+        <h3 class="condensed font-bold text-xl mb-2">Community Driven</h3>
+        <p class="text-white/70 text-sm leading-relaxed">This isn't just a race — it's a community celebration. Meet new people, cheer each other on, and create memories that last far longer than the run itself.</p>
+      </div>
+
+      <div class="card animate-fadeup" style="border-color:rgba(37,211,102,0.3);">
+        <div style="font-size:2.5rem;margin-bottom:0.8rem;">✅</div>
+        <h3 class="condensed font-bold text-xl mb-2">Safe & Organised</h3>
+        <p class="text-white/70 text-sm leading-relaxed">Fully marshalled route, water stations, first aid support, and a dedicated team on the ground to ensure your safety and an awesome experience from start to finish.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- CTA Section -->
-<section class="bg-blue-600 text-white text-center py-16">
-  <h2 class="text-3xl font-bold mb-4">Limited Spots Available!</h2>
-  <button onclick="window.open(whatsappLink, '_blank')" class="bg-green-500 hover:bg-green-600 px-6 py-3 rounded-xl font-semibold">SECURE YOUR SPOT</button>
+<!-- ===== MOTHER & DAUGHTER ===== -->
+<section class="section" style="background:linear-gradient(160deg,#0d1b3e 0%,#2d1b4e 60%,#0a2342 100%);" id="relay">
+  <div style="max-width:800px;margin:0 auto;text-align:center;">
+    <div class="animate-fadeup">
+      <div class="section-label" style="color:#ce93d8;">👩‍👧 Special Feature</div>
+      <h2 class="section-title">MOTHER &<br/><span style="background:linear-gradient(90deg,#ce93d8,#f48fb1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">DAUGHTER RELAY</span></h2>
+      <p class="text-white/70 mt-4 leading-relaxed max-w-xl mx-auto">
+        Bond through the run. Compete as a team. One of you starts at Manaba, the other finishes at Lucien Beach — and together, you create something unforgettable.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10 animate-fadeup">
+      <div class="card" style="border-color:rgba(206,147,216,0.4);text-align:center;">
+        <div style="font-size:2rem;margin-bottom:0.6rem;">💜</div>
+        <div class="condensed font-bold text-lg">Bond Together</div>
+        <div class="text-white/60 text-sm mt-1">Share the journey, celebrate the finish</div>
+      </div>
+      <div class="card" style="border-color:rgba(244,143,177,0.4);text-align:center;">
+        <div style="font-size:2rem;margin-bottom:0.6rem;">🏆</div>
+        <div class="condensed font-bold text-lg">Win Prizes</div>
+        <div class="text-white/60 text-sm mt-1">Top relay pairs take home rewards</div>
+      </div>
+      <div class="card" style="border-color:rgba(206,147,216,0.4);text-align:center;">
+        <div style="font-size:2rem;margin-bottom:0.6rem;">📸</div>
+        <div class="condensed font-bold text-lg">Make Memories</div>
+        <div class="text-white/60 text-sm mt-1">Moments you'll treasure forever</div>
+      </div>
+    </div>
+
+    <div class="mt-10 animate-fadeup">
+      <div style="background:rgba(206,147,216,0.1);border:2px solid rgba(206,147,216,0.3);border-radius:1.25rem;padding:1.5rem;">
+        <p class="condensed font-bold text-xl mb-1" style="color:#ce93d8;">ENTER THE MOTHER & DAUGHTER RELAY</p>
+        <p class="text-white/60 text-sm mb-4">Mention "Mother & Daughter Relay" in your WhatsApp message to register as a team!</p>
+        <a href="https://wa.me/27689124033?text=Please%20register%20us%20now%20for%20the%20Manaba%20Fun%20Run%20-%20Mother%20and%20Daughter%20Relay"
+           target="_blank" class="btn-wa">
+          <i class="fab fa-whatsapp text-xl"></i> REGISTER AS A TEAM
+        </a>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- Contact -->
-<section class="py-16 text-center">
-  <h2 class="text-2xl font-bold mb-4">Contact & Registration</h2>
-  <p class="text-xl">0️⃣6️⃣8️⃣ 9️⃣1️⃣2️⃣ 4️⃣0️⃣3️⃣3️⃣</p>
-  <button onclick="window.open(whatsappLink, '_blank')" class="mt-4 bg-green-500 text-white px-6 py-3 rounded-xl">REGISTER VIA WHATSAPP</button>
+<!-- ===== PRIZES ===== -->
+<section class="section section-sunset" id="prizes">
+  <div style="max-width:900px;margin:0 auto;">
+    <div class="text-center animate-fadeup">
+      <div class="section-label">🎁 Prizes & Rewards</div>
+      <h2 class="section-title">WIN<br/><span style="color:var(--sunset-yellow)">GREAT PRIZES!</span></h2>
+      <p class="text-white/70 mt-2 condensed text-lg">Rewards for EVERYONE — participants AND winners!</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-10">
+      <div class="prize-card animate-fadeup">
+        <div style="font-size:3rem;margin-bottom:0.8rem;">🥇</div>
+        <div class="condensed font-bold text-2xl mb-1" style="color:var(--sunset-yellow);">1st Place</div>
+        <div class="section-label mb-2">Overall Winner</div>
+        <p class="text-white/70 text-sm">Top prize for the fastest finisher in each category — glory AND great rewards!</p>
+      </div>
+
+      <div class="prize-card animate-fadeup" style="border-color:rgba(192,192,192,0.5);">
+        <div style="font-size:3rem;margin-bottom:0.8rem;">🥈</div>
+        <div class="condensed font-bold text-2xl mb-1" style="color:#e0e0e0;">2nd & 3rd</div>
+        <div class="section-label mb-2">Podium Prizes</div>
+        <p class="text-white/70 text-sm">Recognition and rewards for the top finishers across all categories.</p>
+      </div>
+
+      <div class="prize-card animate-fadeup" style="border-color:rgba(41,182,246,0.4);">
+        <div style="font-size:3rem;margin-bottom:0.8rem;">🎉</div>
+        <div class="condensed font-bold text-2xl mb-1" style="color:var(--ocean-bright);">Participation</div>
+        <div class="section-label mb-2" style="color:var(--ocean-bright);">Just for showing up!</div>
+        <p class="text-white/70 text-sm">You can WIN simply for taking part. Everyone who crosses the finish line is a winner!</p>
+      </div>
+    </div>
+
+    <!-- Special relay prize -->
+    <div class="mt-6 animate-fadeup" style="background:linear-gradient(135deg,rgba(255,214,0,0.1),rgba(255,111,0,0.1));border:2px solid rgba(255,214,0,0.4);border-radius:1.25rem;padding:1.8rem;text-align:center;">
+      <div style="font-size:2.5rem;margin-bottom:0.6rem;">👩‍👧 🏆</div>
+      <div class="condensed font-bold text-2xl" style="color:var(--sunset-yellow);">Mother & Daughter Relay Special Prize</div>
+      <p class="text-white/70 text-sm mt-2 max-w-md mx-auto">The winning Mother & Daughter relay pair takes home a specially curated prize. Enter together, win together!</p>
+    </div>
+
+    <div class="text-center mt-10 animate-fadeup">
+      <a href="https://wa.me/27689124033?text=Please%20register%20us%20now%20for%20the%20Manaba%20Fun%20Run"
+         target="_blank" class="btn-wa btn-wa-xl">
+        <i class="fab fa-whatsapp text-xl"></i> JOIN THE FUN RUN TODAY
+      </a>
+    </div>
+  </div>
 </section>
 
-<!-- Footer -->
-<footer class="bg-gray-800 text-white text-center py-6">
-  <p>© 2026 KZN Coastal Fun Run</p>
+<!-- ===== REGISTER ===== -->
+<section class="section" style="background:linear-gradient(160deg,#001d3d,#0a3d6b);" id="register">
+  <div style="max-width:700px;margin:0 auto;text-align:center;">
+    <div class="animate-fadeup">
+      <div class="section-label">📲 Registration</div>
+      <h2 class="section-title">REGISTER<br/><span style="color:var(--wa-green)">ON WHATSAPP</span></h2>
+    </div>
+
+    <!-- URGENCY -->
+    <div class="urgency mt-8 animate-fadeup">
+      <div class="condensed font-bold text-2xl tracking-wide">⚠️ LIMITED SPOTS AVAILABLE</div>
+      <p class="text-white/90 text-sm mt-1">Don't miss out — spots are filling up fast!</p>
+    </div>
+
+    <!-- HOW TO REGISTER -->
+    <div class="mt-8 animate-fadeup">
+      <div class="card" style="text-align:left;background:rgba(37,211,102,0.06);border-color:rgba(37,211,102,0.3);">
+        <p class="condensed font-bold text-lg mb-4 text-center" style="color:var(--wa-green);">HOW TO REGISTER — 3 EASY STEPS</p>
+        <div class="flex flex-col gap-4">
+          <div class="flex items-start gap-3">
+            <div style="width:32px;height:32px;border-radius:50%;background:var(--wa-green);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9rem;flex-shrink:0;">1</div>
+            <div>
+              <div class="condensed font-bold">Tap the WhatsApp button below</div>
+              <div class="text-white/60 text-sm">Opens WhatsApp with a pre-filled message ready to send</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div style="width:32px;height:32px;border-radius:50%;background:var(--wa-green);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9rem;flex-shrink:0;">2</div>
+            <div>
+              <div class="condensed font-bold">Tell us your name & how many runners</div>
+              <div class="text-white/60 text-sm">Solo, group, or Mother & Daughter relay — we've got you</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div style="width:32px;height:32px;border-radius:50%;background:var(--wa-green);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9rem;flex-shrink:0;">3</div>
+            <div>
+              <div class="condensed font-bold">You're registered! 🎉</div>
+              <div class="text-white/60 text-sm">We'll confirm your spot and send all event details</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 animate-fadeup flex flex-col gap-4 items-center">
+      <a href="https://wa.me/27689124033?text=Please%20register%20us%20now%20for%20the%20Manaba%20Fun%20Run"
+         target="_blank" class="btn-wa btn-wa-xl" style="width:100%;max-width:420px;justify-content:center;">
+        <i class="fab fa-whatsapp text-2xl"></i> REGISTER TODAY — SECURE YOUR SPOT
+      </a>
+
+      <div class="condensed text-white/60 text-sm tracking-wide">
+        🕐 Registration closes once spots are full
+      </div>
+    </div>
+
+    <!-- What to bring -->
+    <div class="mt-8 card animate-fadeup" style="text-align:left;">
+      <p class="condensed font-bold text-lg mb-3" style="color:var(--sunset-yellow);">🎒 What to Bring</p>
+      <div class="grid grid-cols-2 gap-2">
+        <div class="flex items-center gap-2 text-sm text-white/80"><span style="color:var(--wa-green)">✓</span> Running shoes & gear</div>
+        <div class="flex items-center gap-2 text-sm text-white/80"><span style="color:var(--wa-green)">✓</span> Water bottle</div>
+        <div class="flex items-center gap-2 text-sm text-white/80"><span style="color:var(--wa-green)">✓</span> Sunscreen & cap</div>
+        <div class="flex items-center gap-2 text-sm text-white/80"><span style="color:var(--wa-green)">✓</span> Relay partner (optional)</div>
+        <div class="flex items-center gap-2 text-sm text-white/80"><span style="color:var(--wa-green)">✓</span> High energy & good vibes</div>
+        <div class="flex items-center gap-2 text-sm text-white/80"><span style="color:var(--wa-green)">✓</span> Camera for memories!</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GALLERY ===== -->
+<section class="section section-dark" id="gallery">
+  <div style="max-width:900px;margin:0 auto;">
+    <div class="text-center animate-fadeup">
+      <div class="section-label">📸 Gallery</div>
+      <h2 class="section-title">THE COASTAL<br/><span style="color:var(--ocean-bright)">EXPERIENCE</span></h2>
+      <p class="text-white/60 text-sm mt-2">A glimpse of what awaits you on race day</p>
+    </div>
+
+    <div class="gallery-grid mt-10 animate-fadeup">
+      <!-- Using Unsplash source images for beach running/coastal themes -->
+      <div class="gallery-item" style="grid-column:span 2;aspect-ratio:16/7;">
+        <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?w=800&q=80" alt="Coastal running" loading="lazy" />
+        <div class="gallery-overlay"></div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1502904550040-7534597429ae?w=500&q=80" alt="Beach sunrise run" loading="lazy" />
+        <div class="gallery-overlay"></div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&q=80" alt="Runners on beach" loading="lazy" />
+        <div class="gallery-overlay"></div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=500&q=80" alt="Ocean waves" loading="lazy" />
+        <div class="gallery-overlay"></div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=500&q=80" alt="Running group" loading="lazy" />
+        <div class="gallery-overlay"></div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1513593771513-7b58b6c4af38?w=500&q=80" alt="Sunset beach" loading="lazy" />
+        <div class="gallery-overlay"></div>
+      </div>
+    </div>
+
+    <div class="text-center mt-10 animate-fadeup">
+      <a href="https://wa.me/27689124033?text=Please%20register%20us%20now%20for%20the%20Manaba%20Fun%20Run"
+         target="_blank" class="btn-wa btn-wa-xl">
+        <i class="fab fa-whatsapp text-xl"></i> I WANT TO BE IN THE NEXT GALLERY!
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="section section-mid" id="faq">
+  <div style="max-width:700px;margin:0 auto;">
+    <div class="text-center animate-fadeup">
+      <div class="section-label">❓ FAQ</div>
+      <h2 class="section-title">EVERYTHING<br/><span style="color:var(--sunset-yellow)">YOU NEED TO KNOW</span></h2>
+    </div>
+
+    <div class="mt-10 animate-fadeup" id="faq-list">
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          How do I register? <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Registration is exclusively via WhatsApp — no forms, no email, no hassle. Simply tap the WhatsApp button anywhere on this page and send us your name and the number of runners. We'll confirm your spot and send all the details!
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          Who can participate? <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Absolutely everyone! This event is open to all fitness levels — from seasoned runners to first-timers. If you can put one foot in front of the other and enjoy the beach, you're welcome. Walkers are encouraged too!
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          What is the Mother & Daughter Relay? <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          The Mother & Daughter Relay is a special team competition where a mother and daughter pair split the route between them. One starts at Manaba Beach and hands over to the other to finish at Lucien Beach. There are special prizes for the top relay teams — mention "Mother & Daughter Relay" when you WhatsApp us.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          What should I bring on race day? <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Bring your running shoes, comfortable gear, water, sunscreen, and a cap — KZN sun is no joke! If you're entering the relay, bring your partner. Most importantly, bring your energy and excitement — it's going to be an amazing day!
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          Is there a participation fee? <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          WhatsApp us to get all the details on entry fees and what's included. We keep it affordable and accessible for the whole community!
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          Will there be water stations on the route? <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Yes! The route will have water stations and marshals along the way. The event is fully organised for your safety and comfort. First aid support will also be available throughout.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          Can I enter on the day? <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          We strongly recommend registering in advance as spots are limited and fill up fast. Walk-ins may be accepted if space allows, but don't risk it — WhatsApp us today to secure your spot!
+        </div>
+      </div>
+
+    </div>
+
+    <div class="text-center mt-10 animate-fadeup">
+      <p class="text-white/60 text-sm mb-4">Have another question?</p>
+      <a href="https://wa.me/27689124033?text=Please%20register%20us%20now%20for%20the%20Manaba%20Fun%20Run"
+         target="_blank" class="btn-wa">
+        <i class="fab fa-whatsapp"></i> ASK US ON WHATSAPP
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section class="section" style="background:var(--ocean-deep);" id="contact">
+  <div style="max-width:600px;margin:0 auto;text-align:center;">
+    <div class="animate-fadeup">
+      <div class="section-label">📞 Contact</div>
+      <h2 class="section-title">GET IN<br/><span style="color:var(--wa-green)">TOUCH</span></h2>
+      <p class="text-white/70 mt-2">We're available on WhatsApp only. Chat with us instantly!</p>
+    </div>
+
+    <div class="mt-10 animate-fadeup card" style="background:rgba(37,211,102,0.06);border-color:rgba(37,211,102,0.3);">
+      <div style="font-size:3rem;margin-bottom:0.8rem;">
+        <i class="fab fa-whatsapp" style="color:var(--wa-green);"></i>
+      </div>
+      <div class="section-label" style="color:var(--wa-green);margin-bottom:0.4rem;">WhatsApp Only</div>
+      <div class="condensed font-bold text-4xl tracking-widest mb-1">068 912 4033</div>
+      <div class="text-white/50 text-sm mb-6">0️⃣6️⃣8️⃣ 9️⃣1️⃣2️⃣ 4️⃣0️⃣3️⃣3️⃣</div>
+
+      <a href="https://wa.me/27689124033?text=Please%20register%20us%20now%20for%20the%20Manaba%20Fun%20Run"
+         target="_blank" class="btn-wa btn-wa-xl" style="width:100%;justify-content:center;">
+        <i class="fab fa-whatsapp text-2xl"></i> OPEN WHATSAPP NOW
+      </a>
+
+      <p class="text-white/40 text-xs mt-4">Tap above to open WhatsApp with a pre-filled message.<br/>No forms. No email. Just a quick chat!</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer style="background:#010d1f;padding:2rem 1.5rem;text-align:center;border-top:1px solid rgba(255,255,255,0.06);">
+  <div class="nav-logo" style="display:inline-block;margin-bottom:0.8rem;font-size:2rem;">KZN<span style="color:var(--sunset-yellow)">RUN</span></div>
+  <div class="condensed text-white/50 text-sm tracking-wide">KZN Coastal Fun Run & Relay · Manaba · Uvongo · Lucien Beach · KwaZulu-Natal, 🇿🇦</div>
+  <div class="mt-4">
+    <a href="https://wa.me/27689124033?text=Please%20register%20us%20now%20for%20the%20Manaba%20Fun%20Run"
+       target="_blank" class="btn-wa" style="font-size:0.85rem;padding:0.6rem 1.5rem;">
+      <i class="fab fa-whatsapp"></i> Register on WhatsApp
+    </a>
+  </div>
+  <div class="text-white/25 text-xs mt-6">© 2025 KZN Coastal Fun Run. All rights reserved.</div>
 </footer>
 
+<!-- ===== FLOATING WHATSAPP ===== -->
+<a href="https://wa.me/27689124033?text=Please%20register%20us%20now%20for%20the%20Manaba%20Fun%20Run"
+   target="_blank" class="floating-wa" title="Register on WhatsApp">
+  <span class="ping"></span>
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+  // ----- NAV SCROLL -----
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ----- COUNTDOWN TIMER -----
+  // Set race date (update this when date is confirmed)
+  const raceDate = new Date('2025-09-06T06:00:00+02:00'); // TBC — set actual date
+
+  function updateCountdown() {
+    const now = new Date();
+    const diff = raceDate - now;
+
+    if (diff <= 0) {
+      document.getElementById('countdown').innerHTML = '<div class="condensed font-bold text-2xl" style="color:var(--sunset-yellow)">🏁 RACE DAY IS HERE! 🏁</div>';
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+    document.getElementById('cd-days').textContent = String(days).padStart(2, '0');
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('cd-mins').textContent = String(mins).padStart(2, '0');
+    document.getElementById('cd-secs').textContent = String(secs).padStart(2, '0');
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // ----- SCROLL ANIMATIONS -----
+  const animEls = document.querySelectorAll('.animate-fadeup');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  animEls.forEach(el => observer.observe(el));
+
+  // ----- FAQ TOGGLE -----
+  function toggleFAQ(el) {
+    const answer = el.nextElementSibling;
+    const icon = el.querySelector('.faq-icon');
+    const isOpen = answer.classList.contains('open');
+
+    // Close all
+    document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+    document.querySelectorAll('.faq-icon').forEach(i => i.classList.remove('open'));
+
+    // Toggle clicked
+    if (!isOpen) {
+      answer.classList.add('open');
+      icon.classList.add('open');
+    }
+  }
+
+  // ----- SMOOTH SCROLL -----
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
 </body>
 </html>
-
